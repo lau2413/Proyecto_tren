@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+
+# Datos generados
+*.npy
+*.pkl
+*.csv
+
+# Editor
+.vscode/
+.idea/
+
+# Jupyter (por si alguien usa)
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
