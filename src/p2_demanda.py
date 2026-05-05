@@ -17,6 +17,9 @@ Distancia:
     Se usa la distancia Manhattan (L1), natural para desplazamiento en cuadrícula.
 """
 
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import numpy as np
 from config import R, C
 
