@@ -68,13 +68,8 @@ def optimizar_greedy(evaluar_fn, escenarios, N, verbose=True):
     if verbose:
         print("Buscando estación inicial óptima...")
     
-    # Muestreo para encontrar buen punto inicial (no probar todos para eficiencia)
-    muestra_inicial = np.random.choice(len(candidatos), 
-                                       size=min(50, len(candidatos)), 
-                                       replace=False)
-    
-    for idx in muestra_inicial:
-        nodo = candidatos[idx]
+    # Muestreo para encontrar buen punto inicial (probamos todos los nodos para garantizar el óptimo)
+    for nodo in candidatos:
         costo = evaluar_fn(escenarios, np.array([nodo]))
         if costo < mejor_costo_individual:
             mejor_costo_individual = costo
@@ -273,6 +268,38 @@ def optimizar_recocido(evaluar_fn, escenarios, N,
     
     return mejor_config, mejor_costo, historial
 
+def ordenar_estaciones_tsp(estaciones):
+    """
+    Ordena las estaciones usando un algoritmo de vecino más cercano (Nearest Neighbor)
+    para crear un ciclo cerrado de longitud mínima aproximada.
+    """
+    estaciones = np.array(estaciones)
+    if len(estaciones) <= 1:
+        return estaciones
+
+    unvisited = list(range(1, len(estaciones)))
+    ordered = [0]
+    current_idx = 0
+
+    while unvisited:
+        # Encontrar el no visitado más cercano usando distancia Manhattan
+        best_dist = np.inf
+        best_idx = -1
+
+        curr_pos = estaciones[current_idx]
+        for candidate_idx in unvisited:
+            cand_pos = estaciones[candidate_idx]
+            dist = np.abs(curr_pos[0] - cand_pos[0]) + np.abs(curr_pos[1] - cand_pos[1])
+            if dist < best_dist:
+                best_dist = dist
+                best_idx = candidate_idx
+
+        ordered.append(best_idx)
+        unvisited.remove(best_idx)
+        current_idx = best_idx
+
+    return estaciones[ordered]
+
 
 # 3. FUNCIÓN PRINCIPAL DE OPTIMIZACIÓN
 
@@ -303,7 +330,7 @@ def optimizar_ruta(evaluar_fn, escenarios, N, metodo='greedy', **kwargs):
     """
     if metodo == 'greedy':
         estaciones, costo, historial = optimizar_greedy(
-            evaluar_fn, escenarios, N, 
+            evaluar_fn, escenarios, N,
             verbose=kwargs.get('verbose', True)
         )
     elif metodo == 'recocido':
@@ -317,7 +344,10 @@ def optimizar_ruta(evaluar_fn, escenarios, N, metodo='greedy', **kwargs):
         )
     else:
         raise ValueError(f"Método '{metodo}' no reconocido. Use 'greedy' o 'recocido'.")
-    
+
+    # Ordenar estaciones en un ciclo cerrado usando TSP Nearest Neighbor
+    estaciones = ordenar_estaciones_tsp(estaciones)
+
     return {
         'estaciones': estaciones,
         'costo': costo,
