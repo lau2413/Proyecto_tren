@@ -1,0 +1,28 @@
+REPORTE DE OPTIMIZACIÓN DE RUTA DEL TREN
+======================================================================
+
+CONFIGURACIÓN:
+  Cuadrícula:      20×20 (400 nodos)
+  Estaciones:      6
+  Escenarios:      30
+  Horizonte:       20 años
+  Semilla:         42
+
+RESULTADOS:
+
+  Greedy:
+    Costo: 8.1717 celdas
+
+  Recocido Simulado:
+    Costo: 8.6885 celdas
+
+  Mejor método: Greedy
+  Costo óptimo: 8.1717 celdas
+
+ESTACIONES ÓPTIMAS (fila, columna):
+  1. ( 8,  9)
+  2. (16, 11)
+  3. ( 5, 17)
+  4. ( 5,  3)
+  5. (14,  2)
+  6. (13, 16)
