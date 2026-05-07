@@ -209,7 +209,6 @@ def evaluar_configuracion(escenarios, estaciones):
 
     for k, pob in enumerate(escenarios):
         pop_flat = pob.flatten().astype(float)
-        # w_e = Σ_{o≠d} pop(o)*pop(d) = pop_total² − ||pop||²
         pesos[k]  = pop_flat.sum() ** 2 - np.dot(pop_flat, pop_flat)
         costos[k] = calcular_costo_escenario(pob, estaciones)
 
@@ -261,7 +260,7 @@ def costo_por_nodo(pob, estaciones):
 if __name__ == '__main__':
     np.random.seed(0)
 
-    # --- Población sintética uniforme ---
+    # Población sintética uniforme
     pob_uniforme = np.ones((C, R))
 
     # 1. probabilidades_destino suma 1 y excluye origen
