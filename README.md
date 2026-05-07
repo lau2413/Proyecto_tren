@@ -1,5 +1,7 @@
 # Proyecto_tren - guía de integración
 
+Estudiantes: Laura Jiménez, Sofía Mejía, Daniela Gerena
+
 ##  Estructura del Proyecto
 
 ```
